@@ -1,0 +1,36 @@
+{
+  "name": "floatie-health",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "start:dev": "nodemon server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qwaded13/floatie-wellness.git"
+  },
+  "author": "Kevin Kim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qwaded13/floatie-wellness/issues"
+  },
+  "homepage": "https://github.com/qwaded13/floatie-wellness#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.13.0",
+    "webpack": "^4.39.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "csvtojson": "^2.0.10",
+    "nodemon": "^1.19.1"
+  }
+}
