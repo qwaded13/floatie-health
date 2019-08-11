@@ -5,12 +5,17 @@ import Container from 'react-bootstrap/Container'
 
 import Symptoms from './components/Symptoms.jsx'
 import Diagnoses from './components/Diagnoses.jsx'
+import Confirm from './components/Confirm.jsx'
+import Reject from './components/Reject.jsx'
+import Report from './components/Report.jsx'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      selectedSymptom: '',
+      selectedDiagnosis: '',
       symptoms: [],
       diagnoses: [],
       form: 'symptoms'
@@ -26,23 +31,27 @@ class App extends React.Component {
     })
   }
 
-  handleSymptomClick(e, symptomId) {
+  handleSymptomClick(e, symptom) {
     // Get list of diagnoses from clicked symptom
-    axios.get(`/diagnoses/${symptomId}`).then(({data}) => {
+    axios.get(`/diagnoses/${symptom.symptomId}`).then(({data}) => {
       this.setState({
+        selectedSymptom: symptom,
         diagnoses: data
       })
       this.setForm('diagnoses')
     })
   }
 
-  handleDiagnosisConfirmation(e, diagnosisId) {
+  handleDiagnosisConfirmation(e, diagnosis) {
     if (this.state.form === 'diagnoses') {
       this.setForm('confirm')
     } else { // User on reject page
       this.setForm('report')
-    } 
-    axios.post(`/diagnoses/${diagnosisId}`)
+    }
+    this.setState({
+      selectedDiagnosis: diagnosis
+    })
+    axios.post(`/diagnoses/${diagnosis.diagnosisId}`)
   }
 
   handleDiagnosisRejection(e) {
@@ -67,16 +76,21 @@ class App extends React.Component {
               return <Symptoms symptoms={this.state.symptoms} handleSymptomClick={this.handleSymptomClick}/>;
       
             case 'diagnoses':
-              return  <Diagnoses diagnoses={this.state.diagnoses} handleDiagnosisConfirmation={this.handleDiagnosisConfirmation}/>
+              return  <Diagnoses diagnosis={this.state.diagnoses[0]} handleDiagnosisConfirmation={this.handleDiagnosisConfirmation}/>
       
             case 'reject':
               return null
               
             case 'confirm':
-              return null
-      
+              return (
+                <>
+                  <Confirm diagnoses={this.state.diagnoses} selections={{symptom: this.state.selectedSymptom, diagnosis: this.state.selectedDiagnosis}}/>
+                  <Report diagnoses={this.state.diagnoses}/>
+                </>
+              )
+            
             case 'report':
-              return null
+              return <Report diagnoses={this.state.diagnoses}/>
       
             default:
               break;

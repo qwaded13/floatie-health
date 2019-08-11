@@ -14,7 +14,7 @@ export default function Symptoms(props) {
         <br></br>
         <DropdownButton id="symptoms-dropdown" title="Symptoms">
           {props.symptoms.map((sym) => {
-            return <Dropdown.Item key={sym.symptomId} onClick={(e) => props.handleSymptomClick(e, sym.symptomId)}>{sym.name}</Dropdown.Item>
+            return <Dropdown.Item key={sym.symptomId} onClick={(e) => props.handleSymptomClick(e, sym)}>{sym.name}</Dropdown.Item>
           })}
         </DropdownButton>
       </Card.Body>
