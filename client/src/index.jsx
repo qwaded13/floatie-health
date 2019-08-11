@@ -23,12 +23,8 @@ class App extends React.Component {
 
     this.handleSymptomClick = this.handleSymptomClick.bind(this)
     this.handleDiagnosisConfirmation = this.handleDiagnosisConfirmation.bind(this)
-  }
-
-  setForm(formName) {
-    this.setState({
-      form: formName
-    })
+    this.handleDiagnosisRejection = this.handleDiagnosisRejection.bind(this)
+    this.startOver = this.startOver.bind(this)
   }
 
   handleSymptomClick(e, symptom) {
@@ -36,26 +32,40 @@ class App extends React.Component {
     axios.get(`/diagnoses/${symptom.symptomId}`).then(({data}) => {
       this.setState({
         selectedSymptom: symptom,
-        diagnoses: data
+        diagnoses: data,
+        form: 'diagnoses'
       })
-      this.setForm('diagnoses')
     })
   }
 
   handleDiagnosisConfirmation(e, diagnosis) {
+    let currentForm;
     if (this.state.form === 'diagnoses') {
-      this.setForm('confirm')
+      currentForm = 'confirm'
     } else { // User on reject page
-      this.setForm('report')
+      currentForm = 'report'
     }
     this.setState({
-      selectedDiagnosis: diagnosis
+      selectedDiagnosis: diagnosis,
+      form: currentForm
     })
     axios.post(`/diagnoses/${diagnosis.diagnosisId}`)
   }
 
   handleDiagnosisRejection(e) {
-    this.setForm('reject')
+    this.setState({
+      form:'reject'
+    })
+  }
+
+  startOver(e) {
+    e.preventDefault()
+    this.setState({
+      selectedSymptom: '',
+      selectedDiagnosis: '',
+      diagnoses: [],
+      form: 'symptoms'
+    })
   }
 
   componentDidMount() {
@@ -76,21 +86,21 @@ class App extends React.Component {
               return <Symptoms symptoms={this.state.symptoms} handleSymptomClick={this.handleSymptomClick}/>;
       
             case 'diagnoses':
-              return  <Diagnoses diagnosis={this.state.diagnoses[0]} handleDiagnosisConfirmation={this.handleDiagnosisConfirmation}/>
+              return  <Diagnoses diagnosis={this.state.diagnoses[0]} handleDiagnosisConfirmation={this.handleDiagnosisConfirmation} handleDiagnosisRejection={this.handleDiagnosisRejection}/>
       
             case 'reject':
-              return null
+              return <Reject diagnoses={this.state.diagnoses.slice(1)} handleDiagnosisConfirmation={this.handleDiagnosisConfirmation}/>
               
             case 'confirm':
               return (
                 <>
                   <Confirm diagnoses={this.state.diagnoses} selections={{symptom: this.state.selectedSymptom, diagnosis: this.state.selectedDiagnosis}}/>
-                  <Report diagnoses={this.state.diagnoses}/>
+                  <Report diagnoses={this.state.diagnoses} startOver={this.startOver}/>
                 </>
               )
             
             case 'report':
-              return <Report diagnoses={this.state.diagnoses}/>
+              return <Report diagnoses={this.state.diagnoses} startOver={this.startOver}/>
       
             default:
               break;

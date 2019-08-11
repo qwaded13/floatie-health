@@ -4,15 +4,14 @@ import Button from 'react-bootstrap/Button'
 
 export default function Diagnoses(props) {
   return (
-    <Card style={{ width: '100%' }}>
+    <Card style={{ width: '50%' }}>
       <Card.Body>
         <Card.Title>Your Recommended Diagnosis:</Card.Title>
-        <br></br>
         <h2>{props.diagnosis.name}</h2>
         <br></br>
         <Card.Text>Do you agree with this recommendation?</Card.Text>
-        <Button onClick={(e) => props.handleDiagnosisConfirmation(e, props.diagnosis)}>Yes</Button>
-        <Button>No</Button>
+        <Button className='yesButton' style={{border: 'none'}}onClick={(e) => props.handleDiagnosisConfirmation(e, props.diagnosis)}>Yes</Button>
+        <Button className='noButton' style={{backgroundColor: '#ef5350', border: 'none'}} onClick={(e) => props.handleDiagnosisRejection(e)}>No</Button>
       </Card.Body>
     </Card>
   )

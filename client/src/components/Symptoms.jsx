@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card'
 
 export default function Symptoms(props) {
   return (
-    <Card style={{ width: '100%' }}>
+    <Card style={{ width: '50%' }}>
       <Card.Body>
         <Card.Title>Select Your Symptom</Card.Title>
         <br></br>

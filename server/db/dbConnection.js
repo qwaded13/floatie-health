@@ -48,7 +48,7 @@ Diagnosis.init(
 );
 
 // DB Loading Code
-let csvFilePath = path.join(__dirname, "./symptoms.csv");
+// let csvFilePath = path.join(__dirname, "./symptoms.csv");
 
 // sequelize.sync({ force: true }).then(() => {
 //   csvtojson({
