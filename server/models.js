@@ -1,4 +1,4 @@
-const { Symptom, Diagnosis } = require("./db/dbConnection");
+const { sequelize, Symptom, Diagnosis } = require("./db/dbConnection");
 
 module.exports = {
   getSymptoms: function() {
@@ -13,7 +13,8 @@ module.exports = {
       attributes: ["name", "frequency", "id"],
       where: {
         symptomId: symptomId
-      }
+      },
+      order: [["frequency", "DESC"]]
     });
   },
 
