@@ -1,14 +1,4 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-
-let server = express();
-server.use(bodyParser.json());
-server.use(morgan("dev"));
-
-server.get("/", (req, res) => {
-  res.send("hello, world");
-});
+const server = require("./server");
 
 let port = 3000;
 
