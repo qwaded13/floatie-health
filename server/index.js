@@ -15,20 +15,39 @@ server.get("/symptoms", (req, res) => {
   // Get all symptoms from the symptoms table
   // send an array of all the symptoms to user
   getSymptoms().then(response => {
-    console.log("response", response);
-    let symptomsList = response.map(obj => obj.name);
-    console.log(symptomsList);
+    let symptomsList = response.map(({ name, id }) => {
+      return {
+        name,
+        symptomId: id
+      };
+    });
     res.send(symptomsList);
   });
-  // res.send(["Sore Throat", "Itchy Rash", "Runny Nose"]);
 });
 
-server.get("/diagnoses/:symptom", (req, res) => {
-  let symptom = req.params.symptom;
-  // get all associated diagnoses for the selected symptom
+server.get("/diagnoses/:symptomId", (req, res) => {
+  // get all associated diagnoses for the selected symptomId
   // sort all diagnoses in order of frequency
   // send sorted list of diagnoses to user
-  res.send(["one", "2", "3", "4"]);
+  let symptomId = req.params.symptomId;
+  getDiagnoses(symptomId).then(response => {
+    let diagnosesList = response.map(({ name, frequency, id }) => {
+      return {
+        name,
+        frequency,
+        diagnosisId: id
+      };
+    });
+    res.send(diagnosesList);
+  });
+});
+
+server.post("/diagnoses/:diagnosisId", (req, res) => {
+  // Increment diagnosis frequency
+  let diagnosisId = req.params.diagnosisId;
+  incrementFrequency(diagnosisId).then(response => {
+    res.sendStatus(201);
+  });
 });
 
 let port = 3000;
