@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const path = require("path");
+const { getSymptoms, getDiagnoses, incrementFrequency } = require("./models");
 
 let server = express();
 server.use(bodyParser.json());
@@ -13,7 +14,13 @@ server.use(express.static(path.join(__dirname, "../client/dist")));
 server.get("/symptoms", (req, res) => {
   // Get all symptoms from the symptoms table
   // send an array of all the symptoms to user
-  res.send(["Sore Throat", "Itchy Rash", "Runny Nose"]);
+  getSymptoms().then(response => {
+    console.log("response", response);
+    let symptomsList = response.map(obj => obj.name);
+    console.log(symptomsList);
+    res.send(symptomsList);
+  });
+  // res.send(["Sore Throat", "Itchy Rash", "Runny Nose"]);
 });
 
 server.get("/diagnoses/:symptom", (req, res) => {
