@@ -1,12 +1,15 @@
 import React from 'react'
-import Button from 'react-bootstrap/Button'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown';
 
 export default function Symptoms(props) {
   return (
     <React.Fragment>
-      {props.symptoms.map((sym) => {
-        return <Button key={sym}>{sym}</Button>
-      })}
+      <DropdownButton id="symptoms-dropdown" title="Symptoms">
+        {props.symptoms.map((sym) => {
+          return <Dropdown.Item key={sym}>{sym}</Dropdown.Item>
+        })}
+      </DropdownButton>
     </React.Fragment>
   )
 }
