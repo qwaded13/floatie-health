@@ -1,6 +1,8 @@
 .env
 .prettierrc
+
 CodingChallenge-DiagnosingTool.docx
 symptoms.csv
+
 node_modules
 bundle.js
